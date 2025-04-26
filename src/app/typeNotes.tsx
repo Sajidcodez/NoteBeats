@@ -94,3 +94,7 @@ export default function TypeNotes() {
     </div>
   );
 }
+
+
+
+
