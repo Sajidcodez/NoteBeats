@@ -19,8 +19,8 @@ export const POST = async (req: Request) => {
         },
       ],
     });
+
     
-    // Return the response(rap lyrics)
     return response.toTextStreamResponse();
   } catch (error) {
     console.error("Error creating response stream:", error);
