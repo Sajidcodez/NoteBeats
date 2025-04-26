@@ -1,14 +1,11 @@
+'use client';
+
 import Navbar from './navbar';
 import FirstTop from './firstTop';
 import TypeNotes from './typeNotes';
 import ShowAudio from './showAudio';  
 import Footer from './footer';
 import './globals.css';
-
-export const metadata = {
-  title: 'NoteBeats',
-  description: 'Music and notes app',
-};
 
 export default function RootLayout({
   children,

@@ -5,7 +5,6 @@ import ConvertButton from './convertButton';
 
 export default function TypeNotes() {
   const [notes, setNotes] = useState('');
-  const [summary, setSummary] = useState('');  // New state variable for summary
   const [lyrics, setLyrics] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,25 +15,10 @@ export default function TypeNotes() {
     
     setIsLoading(true);
     setError(null);
-    setSummary(''); // Clear previous summary
     setLyrics(''); // Clear previous lyrics
     
     try {
-      // First get the summary
-      const summaryResponse = await fetch('/api/summarize', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ notes }),
-      });
-      
-      if (summaryResponse.ok) {
-        const summaryData = await summaryResponse.json();
-        setSummary(summaryData.summary || '');
-      }
-      
-      // Then get the lyrics (streaming)
+      // Get lyrics from convert-notes API
       const response = await fetch('/api/convert-notes', {
         method: 'POST',
         headers: {
@@ -61,10 +45,10 @@ export default function TypeNotes() {
         setLyrics(result); // Update as streaming comes in
       }
       
-      console.log('Conversion successful!');
+      console.log('Lyrics generation successful!');
       
     } catch (err) {
-      console.error('Conversion failed:', err);
+      console.error('Lyrics generation failed:', err);
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -76,7 +60,7 @@ export default function TypeNotes() {
       <h2 className="text-2xl font-bold mb-4">Type Your Notes</h2>
       <textarea
         className="w-full h-64 p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        placeholder="Enter your musical notes or lyrics here..."
+        placeholder="Enter your notes here to generate song lyrics..."
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
         disabled={isLoading}
@@ -88,19 +72,13 @@ export default function TypeNotes() {
         </div>
       )}
       
-      {/* Show summary if available */}
-      {summary && (
-        <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h3 className="text-xl font-bold mb-2">Summarized Notes:</h3>
-          <div className="whitespace-pre-wrap">{summary}</div>
-        </div>
-      )}
-      
-      {/* Show lyrics if available */}
+      {/* Show lyrics with proper formatting when available */}
       {lyrics && (
-        <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-          <h3 className="text-xl font-bold mb-2">Generated Lyrics:</h3>
-          <div className="whitespace-pre-wrap">{lyrics}</div>
+        <div className="mt-6 p-6 bg-gray-100 border border-gray-200 rounded-lg shadow-inner">
+          <h3 className="text-2xl font-bold mb-4 text-center text-blue-700">Your Song Lyrics</h3>
+          <div className="whitespace-pre-line font-serif text-lg leading-relaxed">
+            {lyrics}
+          </div>
         </div>
       )}
       
