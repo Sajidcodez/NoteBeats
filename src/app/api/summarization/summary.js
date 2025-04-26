@@ -18,3 +18,9 @@ export async function summarizeText(originalText) {
     return new Response("Error summarizing", error);
   }
 }
+
+
+
+
+
+
