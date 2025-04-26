@@ -19,6 +19,7 @@ export const POST = async (req: Request) => {
         },
       ],
     });
+    
     // Return the response(rap lyrics)
     return response.toTextStreamResponse();
   } catch (error) {
