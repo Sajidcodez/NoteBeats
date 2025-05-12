@@ -8,6 +8,7 @@ export default function TypeNotes() {
   const [lyrics, setLyrics] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showVideo, setShowVideo] = useState(false);
   
   // API call to convert notes to lyrics
   const handleConvert = async () => {
@@ -16,6 +17,7 @@ export default function TypeNotes() {
     setIsLoading(true);
     setError(null);
     setLyrics(''); // Clear previous lyrics
+    setShowVideo(false); // Reset video state
     
     try {
       // Get lyrics from convert-notes API
@@ -46,6 +48,9 @@ export default function TypeNotes() {
       }
       
       console.log('Lyrics generation successful!');
+      
+      // Show video after lyrics are generated
+      setShowVideo(true);
       
     } catch (err) {
       console.error('Lyrics generation failed:', err);
@@ -82,6 +87,23 @@ export default function TypeNotes() {
         </div>
       )}
       
+      {/* Video section that displays when showVideo is true */}
+      {showVideo && (
+        <div className="mt-8">
+          <h3 className="text-2xl font-bold mb-4 text-center text-blue-700">Your Music Video</h3>
+          <div className="flex justify-center">
+            <video 
+              className="w-full max-w-3xl rounded-lg shadow-lg"
+              controls
+              autoPlay
+            >
+              <source src="/video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      )}
+      
       {/* ConvertButton */}
       <div className="flex justify-center mt-4">
         <ConvertButton 
@@ -94,7 +116,3 @@ export default function TypeNotes() {
     </div>
   );
 }
-
-
-
-
