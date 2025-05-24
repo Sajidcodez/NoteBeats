@@ -21,18 +21,38 @@ export const POST = async (req: Request) => {
     }
     const audioBuffer = Buffer.concat(chunks);
 
-    const fastapiResponse = await fetch("https://audiomerger.onrender.com", {
-      method: "POST",
-      headers: {
-        "Content-Type": "audio/mpeg",
-        "Content-Length": audioBuffer.length.toString(),
-      },
-      body: audioBuffer,
-    });
+    const fastapiResponse = await fetch(
+      "https://audiomerger.onrender.com/merge",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "audio/mpeg",
+          "Content-Length": audioBuffer.length.toString(),
+        },
+        body: audioBuffer,
+      }
+    );
 
-    return new Response("Audio uploaded successfully!");
+    if (!fastapiResponse.ok) {
+      throw new Error(`Audio processing failed: ${fastapiResponse.statusText}`);
+    }
+
+    const audioData = await fastapiResponse.json();
+    return new Response(
+      JSON.stringify({ audioUrl: audioData.merged_audio_url }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   } catch (error) {
     console.error("Error generating audio:", error);
-    return new Response("Error generating audio", { status: 500 });
+    return new Response(JSON.stringify({ error: "Error generating audio" }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 };
