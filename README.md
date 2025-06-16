@@ -167,8 +167,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [OpenRouter](https://openrouter.ai) - AI model API provider
 - [ElevenLabs](https://elevenlabs.io) - Voice synthesis technology
 - [Hugging Face](https://huggingface.co) - AI models for text summarization
-- [Vercel](https://vercel.com) - Deployment platform
-
-## 📧 Contact
-
-For questions or feedback, please reach out to [your-email@example.com](mailto:your-email@example.com).
